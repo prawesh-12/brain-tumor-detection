@@ -49,8 +49,8 @@ server/uploads/*
 # Large training dataset (local only)
 server/data-MRI-Images/
 
-# models (as the model size is too large)
-server/models
+# models the model size is too large)
+server/models/best_model.keras
 
 # Notebook checkpoints
 .ipynb_checkpoints/
