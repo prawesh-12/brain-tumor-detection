@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: brain-tumor-server
+    env: python
+    rootDir: server
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn wsgi:app --bind 0.0.0.0:$PORT --timeout 300
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.6
+      - key: FLASK_DEBUG
+        value: "0"
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: UPLOAD_TTL_SECONDS
+        value: "60"
+      - key: UPLOAD_CLEANUP_INTERVAL_SECONDS
+        value: "15"
+
+  - type: web
+    name: brain-tumor-client
+    env: node
+    rootDir: client
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: NEXT_PUBLIC_API_BASE_URL
+        sync: false
