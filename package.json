@@ -1,0 +1,23 @@
+{
+    "name": "brain-tumor-detection",
+    "version": "1.0.0",
+    "description": "Root scripts to run client and server together",
+    "scripts": {
+        "install:client": "npm --prefix client install",
+        "install:server": "python3 -m venv server/.venv && server/.venv/bin/pip install -r server/requirements.txt",
+        "setup": "npm run install:client && npm run install:server",
+        "dev:client": "npm --prefix client run dev",
+        "dev:server": "server/.venv/bin/python server/main.py",
+        "dev": "concurrently -k -n SERVER,CLIENT -c green,cyan \"npm run dev:server\" \"npm run dev:client\"",
+        "build": "npm --prefix client run build",
+        "start:client": "npm --prefix client run dev",
+        "start:client:prod": "npm --prefix client run start",
+        "start:server:prod": "server/.venv/bin/python -m gunicorn --chdir server wsgi:app --bind 0.0.0.0:${PORT:-5000} --timeout 300",
+        "start:server": "server/.venv/bin/python -m gunicorn --chdir server wsgi:app --bind 0.0.0.0:${PORT:-5000} --timeout 300 || server/.venv/bin/python server/main.py",
+        "start": "concurrently -k -n SERVER,CLIENT -c green,cyan \"npm run start:server\" \"npm run start:client\"",
+        "start:prod": "npm run build && concurrently -k -n SERVER,CLIENT -c green,cyan \"npm run start:server:prod\" \"npm run start:client:prod\""
+    },
+    "devDependencies": {
+        "concurrently": "^9.0.1"
+    }
+}

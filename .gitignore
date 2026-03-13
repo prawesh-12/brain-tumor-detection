@@ -54,3 +54,6 @@ server/models/best_model.keras
 
 # Notebook checkpoints
 .ipynb_checkpoints/
+
+# Render deployment
+render.yaml
